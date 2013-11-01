@@ -1,9 +1,9 @@
 <!-- Ant buildfile -->
-<project name="servePPX" default="all" basedir=".">
+<project name="mqDownload" default="all" basedir=".">
 
 	<!-- Global variables -->
 	<property name="properties.dir" value="properties"/>
-	<property name="build.dir" value="build"/>
+	<property name="build.dir" value="bin"/>
 	<property name="src.dir" value="src"/>
 	<property name="dist.dir" value="pkg"/>
 	<property name="lib.dir" value="${build.dir}/lib"/>
@@ -49,9 +49,9 @@
     <target name="all" depends="set, clean, compile, jar, copy" description="Set, cleans, compiles, builds the jar file, then copies files to deployment dir.  ">
 -->	
 <target name="all" depends="set, clean, compile, jar, copy" description="Set, cleans, compiles, builds the jar file, then copies files to deployment dir.  ">
-	<echo>*****************************</echo>
-	<echo>*  PPXMQUpload Build complete. *</echo>
-	<echo>*****************************</echo>
+	<echo>********************************</echo>
+	<echo>*  MQ Download build complete. *</echo>
+	<echo>********************************</echo>
     </target>
 
 </project>
