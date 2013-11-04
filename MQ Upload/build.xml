@@ -1,0 +1,57 @@
+<!-- Ant buildfile -->
+<project name="MQUpload" default="all" basedir=".">
+
+	<!-- Global variables -->
+	<property name="properties.dir" value="properties"/>
+	<property name="build.dir" value="bin"/>
+	<property name="src.dir" value="src"/>
+	<property name="dist.dir" value="pkg"/>
+	<property name="lib.dir" value="${build.dir}/lib"/>
+
+    <target name="set">
+		<property environment="env"/>
+		<exec executable="cmd.exe" >
+		<env key="JAVA_HOME" path="C:\Program Files\Java\jdk1.7.0_45"/>
+		</exec>
+	</target>
+
+	<target name="clean">
+        <delete dir="${build.dir}/classes"/>
+        <delete dir="${lib.dir}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${build.dir}/classes"/>
+		<!-- DEBUG javac 
+        <javac classpathref="jaxblibs" srcdir="src" destdir="${build.dir}/classes" debug="on" verbose="on"/>
+		-->
+        <javac srcdir="src" destdir="${build.dir}/classes"/>
+		
+    </target>
+
+    <target name="jar">
+        <mkdir dir="${lib.dir}"/>
+        <jar destfile="${lib.dir}/mqupload.jar" basedir="${build.dir}/classes">
+        </jar>
+    </target>
+
+    <target name="run">
+        <java jar="${lib.dir}/mqupload.jar" fork="true"/>
+    </target>
+
+    <target name="copy">
+	<copy file="${lib.dir}/mqupload.jar" todir="${dist.dir}"/>
+	<copy file="${properties.dir}/mqupload.properties" todir="${dist.dir}"/>	
+    </target>
+    
+
+    <!-- Target to perform all actions 
+    <target name="all" depends="set, clean, compile, jar, copy" description="Set, cleans, compiles, builds the jar file, then copies files to deployment dir.  ">
+-->	
+<target name="all" depends="set, clean, compile, jar, copy" description="Set, cleans, compiles, builds the jar file, then copies files to deployment dir.  ">
+	<echo>*****************************</echo>
+	<echo>*  PPXMQUpload Build complete. *</echo>
+	<echo>*****************************</echo>
+    </target>
+
+</project>
