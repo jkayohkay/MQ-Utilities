@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<project name="PPXMQUpload" default="all">
+
+	<property environment="env" />
+	<property file="build.properties" />
+
+	<target name="init">
+		<property name="classdir" value="${bin};${bin.includes}/com.ibm.mq.jar;${bin.includes}/connecator.jar" />
+		<property name="src" value="${src.includes}" />
+		<property name="jarPPXMQUpload" value="${ppxmqupload.jar}" />
+	</target>
+
+	<target name="all" depends="init,clean,compile,buildJar" />
+
+	<target name="clean">
+		<echo message="cleaning class files. . ." />
+		<delete includeemptydirs="true">
+			<fileset dir="${bin}" includes="**/*" />
+			<fileset dir="${output.directory}" includes="${jarPPXMQUpload}" />
+			<fileset dir="${output.directory}" includes="**/*.jar" />
+			<fileset dir="${output.directory}" includes="**/*.properties" />
+		</delete>
+	</target>
+	
+	<target name='compile' >
+	        <javac srcdir='${src.includes}'
+	               destdir='${bin}'
+	        	   classpath='${classdir}'
+	               includeAntRuntime='no'
+	               source='1.6'
+					debug='on'>
+	        	<compilerarg value="-Xlint:unchecked"/>
+	        </javac>
+	</target>
+	
+	<target name="buildJar" depends='compile' >
+		<jar destfile="${output.directory}/${jarPPXMQUpload}"
+	             index="true" >
+	            <fileset dir="${bin}" />
+	            <fileset dir="${src.includes}" />
+	        <manifest>
+	            <attribute name="Main-Class" value="${mainclass.name}" />
+	        	<attribute name="Built-By" value="CGI" />
+	        </manifest>
+		</jar>
+		<copy todir="${output.directory}" >
+			<fileset dir="${bin.includes}" />
+			<fileset dir="${properties.includes}" />
+		</copy>
+	</target>
+
+
+</project>
