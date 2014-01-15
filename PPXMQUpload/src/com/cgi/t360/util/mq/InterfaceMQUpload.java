@@ -1,4 +1,4 @@
-package com.cgi.ppxmqupload;
+package com.cgi.t360.util.mq;
 
 import java.io.*;
 import java.util.Properties;
@@ -7,7 +7,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 
 
-import com.cgi.ppxmqupload.util.IsFileFilter;
+import com.cgi.t360.util.IsFileFilter;
 import com.ibm.mq.*; //Include the WebSphere MQ classes for Java package
 
 public class InterfaceMQUpload {

@@ -1,4 +1,4 @@
-package com.cgi.ppxmqupload.util;
+package com.cgi.t360.util;
 import java.io.*;
 
 public class XMLFileFilter implements FilenameFilter {

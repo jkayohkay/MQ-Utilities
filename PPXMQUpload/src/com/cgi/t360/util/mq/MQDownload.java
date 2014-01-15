@@ -1,4 +1,4 @@
-package com.cgi.ppxmqupload;
+package com.cgi.t360.util.mq;
 
 import java.io.*;
 import java.util.Properties;

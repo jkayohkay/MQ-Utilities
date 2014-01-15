@@ -1,10 +1,10 @@
-package com.cgi.ppxmqupload;
+package com.cgi.t360.util.mq;
 
 import java.io.*;
 import java.util.Properties;
 import java.util.logging.*;
 import java.util.Hashtable;
-import com.cgi.ppxmqupload.util.XMLFileFilter;
+import com.cgi.t360.util.XMLFileFilter;
 import com.ibm.mq.*; //Include the WebSphere MQ classes for Java package
 
 /**
