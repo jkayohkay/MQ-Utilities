@@ -6,6 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -29,6 +32,8 @@ public class MQDownloadThread extends Thread {
 	
 	private MQQueueManager qMgr;
 	private MQQueue queue;
+	
+	private int sequenceNumber = 0;
 	
 	MQDownloadThread(Logger log, MQQueueManager qm, MQQueue q)
 	{
@@ -118,8 +123,10 @@ public class MQDownloadThread extends Thread {
 					String fileName = getFileName(messageString, message);
 					
 					File outputFile = new File(fileName);
-					
-					outputFile.createNewFile();
+					if(!outputFile.exists())
+					{
+						outputFile.createNewFile();
+					}
 					FileWriter fw = new FileWriter(outputFile.getAbsoluteFile());
 					BufferedWriter bw = new BufferedWriter(fw);
 					bw.write(messageString);
@@ -144,10 +151,14 @@ public class MQDownloadThread extends Thread {
 		catch (MQException ex) {
 			logger.log(Level.SEVERE, "A WebSphere MQ Error occured : Completion Code "
 					+ ex.completionCode + " Reason Code " + ex.reasonCode, ex);
+			logger.log(Level.SEVERE, "Exiting program.");
+			System.exit(-1);
 		}
 		catch (java.io.IOException ex) {
 			logger.log(Level.SEVERE, "An IOException occured whilst writing to the message buffer: "
 					+ ex, ex);
+			logger.log(Level.SEVERE, "Exiting program.");
+			System.exit(-1);
 		}
 		finally 
 		{
@@ -217,23 +228,28 @@ public class MQDownloadThread extends Thread {
 			fileName.append(".MsgType_"+value);
 		}
 		
-		// Add the current time in milliseconds and message sequence number to make 
+		// Add the current time in "yyyy-MM-dd'_'HHmmss.SSS" and sequence number to make 
 		// the filename unique
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'_'HHmmss.SSS");
+		String formattedDate = format.format(new Date());
 		if(fileName.toString().endsWith(File.separator))
 		{
-			fileName.append(System.currentTimeMillis()
-					+message.messageSequenceNumber);
+			fileName.append(formattedDate
+					+ "_"
+					+ sequenceNumber++);
 		}
 		else
 		{
 			fileName.append("."
-					+System.currentTimeMillis()
-					+message.messageSequenceNumber);
+					+ formattedDate
+					+ "_"
+					+ sequenceNumber++);
 		}
 		
 		// Add the file extension
 		fileName.append(".xml");
 		
+		logger.info("Returing the following filename: "+fileName.toString());
 		return fileName.toString();
 	}
 	
